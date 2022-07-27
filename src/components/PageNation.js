@@ -1,0 +1,73 @@
+
+import React, { Component } from 'react';
+import '../css/PageNation.css';
+
+class PageNation extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+            totalBookLength:this.props.totalBookLength,
+            bookPerPage:this.props.bookPerPage,
+            currentPage:this.props.currentPage
+        }
+    }
+
+    pageClick=(page)=>{
+        alert("pageClick:"+page);
+        this.props.setCurrentPage(page);
+    }
+
+    prevFunc=()=>{
+        alert("prevFunc");
+    }
+
+    nextFunc=()=>{
+        alert("nextFunc");
+    }
+
+    componentDidMount(){
+
+    }
+
+    render(){
+        const {totalBookLength,bookPerPage,currentPage}=this.props;
+        /*페이지 배열 추가*/
+        let pageNumbers = [];
+        console.log(totalBookLength);
+        console.log(bookPerPage);
+        for (let i = 1; i <= Math.ceil(totalBookLength / bookPerPage); i++) {
+        pageNumbers.push(i);
+        }
+        console.log(pageNumbers);
+
+        var i=1;
+        const pageList=pageNumbers.map((page,idx)=>(
+            <span className="page" id={"pageIdx"+(i++)}
+            key={idx} onClick={()=>this.pageClick(page)}>
+                {page}
+            </span>
+                )
+            );
+
+        return (
+    <div id="PageNation">
+        <span>페이지당 포스트 갯수:{bookPerPage}</span><br/>
+        <span>현재 페이지:{currentPage}</span><br/>
+        <span>총 포스트 갯수:{totalBookLength}</span><br/>
+
+        <div className="pageList">
+        <a href="#" className="page" onClick={this.prevFunc}>&lt;</a>
+        {pageList}
+        <a href="#" className="page" onClick={this.nextFunc}>&gt;</a>
+        </div>
+        <div>
+            ~에 대한 본문검색 결과
+        </div>
+    </div>
+        );
+    }
+
+}
+
+export default PageNation;
